@@ -1,0 +1,39 @@
+service: birthday-reminder-api
+
+provider:
+    name: aws
+    runtime: nodejs20.x
+    stage: 'dev'
+    region: 'eu-west-3'
+    memorySize: 128
+    timeout: 5
+
+functions:
+    getUserBirthdays:
+        handler: src/getUserBirthdays/index.handler
+        description: get all birthdays recorded by a user in DB
+        events:
+            - http:
+                  path: /birthdays
+                  method: get
+    createNewBirthday:
+        handler: src/createNewBirthday/index.handler
+        description: add a new birthday to DB
+        events:
+            - http:
+                  path: /birthdays/new
+                  method: post
+    updateBirthday:
+        handler: src/updateBirthday/index.handler
+        description: update a birthday created before in DB
+        events:
+            - http:
+                  path: /birthdays/{birthdayId}
+                  method: patch
+    deleteBirthday:
+        handler: src/deleteBirthday/index.handler
+        description: delete a birthday created before in DB
+        events:
+            - http:
+                  path: /birthdays/{birthdayId}
+                  method: delete
