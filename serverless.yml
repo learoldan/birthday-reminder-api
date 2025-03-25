@@ -37,3 +37,10 @@ functions:
             - http:
                   path: /birthdays/{birthdayId}
                   method: delete
+    authorizer:
+        handler: src/authorizer/index.handler
+        description: authorize access to the app
+        events:
+            - http:
+                  path: /birthdays
+                  method: post
