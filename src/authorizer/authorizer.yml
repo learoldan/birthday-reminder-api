@@ -1,0 +1,6 @@
+handler: src/authorizer/index.handler
+description: authorize access to the app
+events:
+    - http:
+          path: /birthdays
+          method: post

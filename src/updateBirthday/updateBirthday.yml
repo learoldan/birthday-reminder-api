@@ -1,0 +1,6 @@
+handler: src/updateBirthday/index.handler
+description: update a birthday created before in DB
+events:
+    - http:
+          path: /birthdays/{birthdayId}
+          method: patch

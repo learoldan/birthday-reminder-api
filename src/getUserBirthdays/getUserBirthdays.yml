@@ -1,0 +1,6 @@
+handler: src/getUserBirthdays/index.handler
+description: get all birthdays recorded by a user in DB
+events:
+    - http:
+          path: /birthdays
+          method: get

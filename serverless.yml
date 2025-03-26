@@ -9,38 +9,8 @@ provider:
     timeout: 5
 
 functions:
-    getUserBirthdays:
-        handler: src/getUserBirthdays/index.handler
-        description: get all birthdays recorded by a user in DB
-        events:
-            - http:
-                  path: /birthdays
-                  method: get
-    createNewBirthday:
-        handler: src/createNewBirthday/index.handler
-        description: add a new birthday to DB
-        events:
-            - http:
-                  path: /birthdays/new
-                  method: post
-    updateBirthday:
-        handler: src/updateBirthday/index.handler
-        description: update a birthday created before in DB
-        events:
-            - http:
-                  path: /birthdays/{birthdayId}
-                  method: patch
-    deleteBirthday:
-        handler: src/deleteBirthday/index.handler
-        description: delete a birthday created before in DB
-        events:
-            - http:
-                  path: /birthdays/{birthdayId}
-                  method: delete
-    authorizer:
-        handler: src/authorizer/index.handler
-        description: authorize access to the app
-        events:
-            - http:
-                  path: /birthdays
-                  method: post
+    getUserBirthdays: ${file(./src/getUserBirthdays/getUserBirthdays.yml)}
+    createNewBirthday: ${file(./src/createNewBirthday/createNewBirthday.yml)}
+    updateBirthday: ${file(./src/updateBirthday/updateBirthday.yml)}
+    deleteBirthday: ${file(./src/deleteBirthday/deleteBirthday.yml)}
+    authorizer: ${file(./src/authorizer/authorizer.yml)}
