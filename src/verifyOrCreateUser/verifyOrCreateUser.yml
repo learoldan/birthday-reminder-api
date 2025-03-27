@@ -1,0 +1,6 @@
+handler: src/verifyOrCreateUser/index.handler
+description: check if a user exist and if not create it
+events:
+    - http:
+          path: /user
+          method: post

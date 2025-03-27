@@ -7,6 +7,17 @@ provider:
     region: 'eu-west-3'
     memorySize: 128
     timeout: 5
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+              - dynamodb:PutItem
+              - dynamodb:GetItem
+              - dynamodb:UpdateItem
+              - dynamodb:Query
+              - dynamodb:Scan
+          Resource:
+              - arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/users
+              - arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/birthdays
 
 functions:
     getUserBirthdays: ${file(./src/getUserBirthdays/getUserBirthdays.yml)}
@@ -14,3 +25,4 @@ functions:
     updateBirthday: ${file(./src/updateBirthday/updateBirthday.yml)}
     deleteBirthday: ${file(./src/deleteBirthday/deleteBirthday.yml)}
     authorizer: ${file(./src/authorizer/authorizer.yml)}
+    verifyOrCreateUser: ${file(./src/verifyOrCreateUser/verifyOrCreateUser.yml)}

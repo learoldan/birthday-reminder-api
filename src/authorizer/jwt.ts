@@ -1,12 +1,11 @@
 import { JwtHeader, SigningKeyCallback } from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
 
-// Configuración del cliente JWKS
+// JWKS client config
 const client = jwksClient({
     jwksUri: process.env.AUTH0_JWKS_URI as string,
 })
 
-// Función corregida
 export const getKey = (
     header: JwtHeader,
     callback: SigningKeyCallback

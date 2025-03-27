@@ -1,5 +1,9 @@
 handler: src/authorizer/index.handler
 description: authorize access to the app
+environment:
+    AUTH0_JWKS_URI: ${env:AUTH0_JWKS_URI}
+    AUTH0_API_AUDIENCE: ${env:AUTH0_API_AUDIENCE}
+    AUTH0_TOKEN_ISSUER: ${env:AUTH0_TOKEN_ISSUER}
 events:
     - http:
           path: /birthdays

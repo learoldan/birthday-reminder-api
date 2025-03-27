@@ -21,7 +21,7 @@ export const handler = async (
             getKey,
             {
                 audience: process.env.AUTH0_API_AUDIENCE,
-                issuer: process.env.AUTH0_ISSUER,
+                issuer: process.env.AUTH0_TOKEN_ISSUER,
             },
             (err: VerifyErrors | null, decoded: any) => {
                 if (err) {
