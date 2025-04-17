@@ -1,33 +1,42 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { getUser, createUser, getUserBirthdays } from './services'
+import { getUser, createUser } from '../services'
 
 export const handler = async (
     event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
-        const user = event.requestContext.authorizer
-        const email = user?.email
-        const fullName = user?.fullName
+        const body = JSON.parse(event.body as string)
+        const userId = body?.userId
+        const email = body?.email
+        const name = body?.name
 
-        if (!email || !fullName) {
+        if (!userId) {
+            return {
+                statusCode: 401,
+                body: JSON.stringify({
+                    message: 'Unauthorized, userId missing',
+                }),
+            }
+        }
+
+        if (!email || !name) {
             return {
                 statusCode: 400,
                 body: JSON.stringify({ message: 'Missing user information' }),
             }
         }
 
-        let existingUser = await getUser(email)
+        let existingUser = await getUser(userId)
 
         if (!existingUser) {
-            await createUser(email, fullName)
-            existingUser = { email, fullName }
+            existingUser = await createUser({ userId, email, name })
         }
 
-        const birthdays = await getUserBirthdays(email)
+        const birthdays = existingUser.birthdays
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ user: existingUser, birthdays }),
+            body: JSON.stringify({ birthdays }),
         }
     } catch (error) {
         return {
