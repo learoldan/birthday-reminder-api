@@ -4,7 +4,7 @@ import { deleteBirthday } from '../services'
 export async function handler(
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> {
-    const userId = event.requestContext.authorizer?.principalId // ID from the Auth0 autenticated user
+    const { userId, birthdayId } = JSON.parse(event.body || '{}')
 
     if (!userId) {
         return {
@@ -13,9 +13,6 @@ export async function handler(
         }
     }
 
-    const { birthdayId } = JSON.parse(event.body || '{}')
-
-    // Fields validations
     if (!birthdayId) {
         return {
             statusCode: 400,
@@ -26,7 +23,7 @@ export async function handler(
     }
 
     try {
-        const result = await deleteBirthday(userId, birthdayId)
+        const result = await deleteBirthday({ userId, birthdayId })
         return {
             statusCode: 204,
             body: JSON.stringify(result),

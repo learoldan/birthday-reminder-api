@@ -4,7 +4,7 @@ import { getUserBirthdays } from '../services'
 export async function handler(
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> {
-    const userId = event.requestContext.authorizer?.principalId // ID from the Auth0 autenticated user
+    const { userId } = JSON.parse(event.body || '{}')
     try {
         const birthdays = await getUserBirthdays(userId)
         return {

@@ -4,20 +4,17 @@ import { addNewBirthday } from '../services'
 export async function handler(
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> {
-    const userId = event.requestContext.authorizer?.principalId // ID from the Auth0 autenticated user
+    const { userId, firstName, lastName, birthDay, notes } = JSON.parse(
+        event.body || '{}'
+    )
 
+    // Fields validations
     if (!userId) {
         return {
             statusCode: 401,
             body: JSON.stringify({ message: 'Unauthorized, userId missing' }),
         }
     }
-
-    const { firstName, lastName, birthDay, notes } = JSON.parse(
-        event.body || '{}'
-    )
-
-    // Fields validations
     if (!firstName) {
         return {
             statusCode: 400,
@@ -42,10 +39,10 @@ export async function handler(
             }),
         }
     }
-    const birthday = { firstName, lastName, birthDay, notes }
+    const newBirthDay = { userId, firstName, lastName, birthDay, notes }
 
     try {
-        const result = await addNewBirthday(userId, birthday)
+        const result = await addNewBirthday({ newBirthDay })
         return {
             statusCode: 201,
             body: JSON.stringify(result),

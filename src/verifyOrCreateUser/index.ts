@@ -1,5 +1,5 @@
 import { APIGatewayEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { getUser, createUser } from '../services'
+import { getUser, createUser, getUserBirthdays } from '../services'
 
 export const handler = async (
     event: APIGatewayEvent
@@ -29,14 +29,15 @@ export const handler = async (
         let existingUser = await getUser(userId)
 
         if (!existingUser) {
-            existingUser = await createUser({ userId, email, name })
+            await createUser({ userId, email, name })
+            existingUser = { userId, email, name }
         }
 
-        const birthdays = existingUser.birthdays
+        const birthdays = await getUserBirthdays(userId)
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ birthdays }),
+            body: JSON.stringify({ user: existingUser, birthdays }),
         }
     } catch (error) {
         return {
