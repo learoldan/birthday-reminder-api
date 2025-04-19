@@ -1,6 +1,7 @@
 handler: src/updateBirthday/index.handler
 description: update a birthday created before in DB
 events:
-    - http:
+    - httpApi:
           path: /birthdays/{birthdayId}
-          method: patch
+          method: PATCH
+          authorizer: auth0Authorizer

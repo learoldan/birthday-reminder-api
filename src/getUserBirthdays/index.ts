@@ -4,7 +4,7 @@ import { getUserBirthdays } from '../services'
 export async function handler(
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> {
-    const { userId } = JSON.parse(event.body || '{}')
+    const userId = event.queryStringParameters?.userId as string
     try {
         const birthdays = await getUserBirthdays(userId)
         return {

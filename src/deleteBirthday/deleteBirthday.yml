@@ -1,6 +1,7 @@
 handler: src/deleteBirthday/index.handler
 description: delete a birthday created before in DB
 events:
-    - http:
+    - httpApi:
           path: /birthdays/{birthdayId}
-          method: delete
+          method: DELETE
+          authorizer: auth0Authorizer

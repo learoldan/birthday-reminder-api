@@ -1,6 +1,7 @@
 handler: src/createNewBirthday/index.handler
 description: add a new birthday to DB
 events:
-    - http:
+    - httpApi:
           path: /birthdays/new
-          method: post
+          method: POST
+          authorizer: auth0Authorizer

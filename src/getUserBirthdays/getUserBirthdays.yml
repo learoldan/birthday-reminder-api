@@ -1,6 +1,7 @@
 handler: src/getUserBirthdays/index.handler
 description: get all birthdays recorded by a user in DB
 events:
-    - http:
+    - httpApi:
           path: /birthdays
-          method: get
+          method: GET
+          authorizer: auth0Authorizer

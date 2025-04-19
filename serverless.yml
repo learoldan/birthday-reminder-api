@@ -13,11 +13,20 @@ provider:
               - dynamodb:PutItem
               - dynamodb:GetItem
               - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
               - dynamodb:Query
               - dynamodb:Scan
           Resource:
               - arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/users
               - arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/birthdays
+    httpApi:
+        cors: true
+        authorizers:
+            auth0Authorizer:
+                identitySource: $request.header.Authorization
+                issuerUrl: ${env:AUTH0_TOKEN_ISSUER}
+                audience:
+                    - ${env:AUTH0_API_AUDIENCE}
 
 functions:
     getUserBirthdays: ${file(./src/getUserBirthdays/getUserBirthdays.yml)}
